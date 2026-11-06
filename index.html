@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101b33">
+<title>NeuroVision Therapy — MVP</title>
+<style>
+:root{--navy:#101b33;--ink:#17233d;--muted:#6c7890;--line:#e6ebf3;--bg:#f5f7fb;--teal:#27b6a4;--blue:#5575e8;--lav:#eef0ff;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:11px 15px;font-weight:650}
+.app{display:grid;grid-template-columns:245px 1fr;min-height:100vh}.side{background:var(--navy);color:#dce5f7;padding:24px 17px;display:flex;flex-direction:column;gap:25px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:19px;color:#fff}.logo{width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,#5c83ff,#25c4ad);display:grid;place-items:center;font-size:20px}
+.nav{display:grid;gap:7px}.nav button{background:transparent;color:#b7c4dd;text-align:left;font-weight:600}.nav button.active,.nav button:hover{background:#243451;color:white}
+.side-note{margin-top:auto;color:#9aabc9;font-size:12px;border-top:1px solid #30405e;padding-top:17px}
+main{padding:28px;max-width:1450px;width:100%;margin:auto}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:24px}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--teal);font-weight:800}.title{font-size:29px;line-height:1.2;margin:5px 0 4px}.sub{color:var(--muted);margin:0}.profile{background:white;border:1px solid var(--line);padding:9px 13px;border-radius:14px;color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.card{background:white;border:1px solid var(--line);border-radius:19px;padding:19px;box-shadow:0 5px 20px #20345b08}.span-8{grid-column:span 8}.span-4{grid-column:span 4}.span-6{grid-column:span 6}.span-12{grid-column:span 12}
+.card h2{font-size:17px;margin:0 0 6px}.muted{color:var(--muted)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{padding:14px;border-radius:14px;background:#f7f9fd}.stat strong{font-size:25px;display:block}.stat small{color:var(--muted)}
+.progress{height:8px;background:#edf1f7;border-radius:20px;overflow:hidden;margin:12px 0}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--teal));width:42%;border-radius:20px}
+.module-list{display:grid;gap:10px;margin-top:13px}.module{display:flex;align-items:center;gap:13px;padding:13px;border:1px solid var(--line);border-radius:14px}.module .emoji{font-size:23px;width:42px;height:42px;display:grid;place-items:center;background:#f0f3ff;border-radius:13px}.module .meta{flex:1}.module b{display:block}.module small{color:var(--muted)}.soft{background:#eef2ff;color:#526bd0}.primary{background:var(--navy);color:white}.teal{background:var(--teal);color:#062e2a}.outline{background:white;border:1px solid var(--line);color:var(--ink)}
+.pill{font-size:11px;padding:4px 8px;border-radius:20px;background:#e8f8f5;color:#168879;font-weight:750}
+.session{display:none}.session.active{display:block}.stage{background:#101b33;border-radius:18px;min-height:310px;position:relative;overflow:hidden;display:grid;place-items:center;color:white;margin:14px 0}.target{width:42px;height:42px;border-radius:50%;background:#ffcf5a;box-shadow:0 0 0 12px #ffcf5a30,0 0 35px #ffcf5a88;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}.fix{position:absolute;width:7px;height:7px;border-radius:50%;background:#fff;left:50%;top:50%;transform:translate(-50%,-50%)}
+.controls{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.field{display:grid;gap:5px;margin:10px 0}.field label{font-size:12px;color:var(--muted);font-weight:700}.field input,.field select{border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff}
+.notice{padding:12px 14px;background:#fff8e8;border:1px solid #f2dfb5;border-radius:13px;color:#755b23;font-size:13px;margin-top:14px}
+.history{width:100%;border-collapse:collapse;margin-top:12px}.history td,.history th{text-align:left;padding:10px 7px;border-bottom:1px solid var(--line);font-size:13px}.history th{color:var(--muted);font-weight:700}
+.hidden{display:none!important}
+@media(max-width:850px){.app{grid-template-columns:1fr}.side{padding:12px 14px;gap:10px}.brand{font-size:16px}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap;padding:9px}.side-note{display:none}main{padding:18px 13px}.span-8,.span-4,.span-6{grid-column:span 12}.title{font-size:24px}.stats{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+  <div class="brand"><div class="logo">◉</div><span>NeuroVision</span></div>
+  <nav class="nav">
+    <button class="active" data-page="overview">Overview</button>
+    <button data-page="exercises">Exercise library</button>
+    <button data-page="session">Training room</button>
+    <button data-page="clinician">Clinician view</button>
+  </nav>
+  <div class="side-note">MVP • Demonstration build<br>Not a medical device or treatment prescription.</div>
+</aside>
+<main>
+  <header class="top">
+    <div><div class="eyebrow">Vision training workspace</div><h1 class="title" id="pageTitle">Welcome to NeuroVision</h1><p class="sub" id="pageSub">A clinician-guided workspace for structured visual activities.</p></div>
+    <div class="profile">Demo profile · Local only</div>
+  </header>
+
+  <section id="overview" class="page">
+    <div class="grid">
+      <div class="card span-8">
+        <div class="eyebrow">Your training snapshot</div><h2>Small steps. Consistent practice.</h2>
+        <p class="muted">Track assigned activities and review session history with your clinician.</p>
+        <div class="stats">
+          <div class="stat"><strong id="sessionsCount">0</strong><small>Sessions completed</small></div>
+          <div class="stat"><strong id="minutesCount">0</strong><small>Minutes recorded</small></div>
+          <div class="stat"><strong>—</strong><small>Clinical outcome</small></div>
+        </div>
+        <div class="progress"><i id="weekProgress"></i></div><small class="muted">Demo progress indicator · not a measure of visual improvement</small>
+      </div>
+      <div class="card span-4">
+        <div class="eyebrow">Today</div><h2>Assigned activity</h2><p class="muted">Target tracking demonstration</p>
+        <button class="primary" onclick="openSession('pursuit')">Start demo</button>
+        <div class="notice">Stop if you experience diplopia, headache, nausea, dizziness, or visual discomfort. Contact your eye-care professional.</div>
+      </div>
+      <div class="card span-6">
+        <h2>Exercise categories</h2>
+        <div class="module-list">
+          <div class="module"><div class="emoji">↔️</div><div class="meta"><b>Vergence concepts</b><small>Near–far awareness and binocular coordination</small></div><span class="pill">Planned</span></div>
+          <div class="module"><div class="emoji">🎯</div><div class="meta"><b>Oculomotor tasks</b><small>Target localization and tracking</small></div><span class="pill">Demo</span></div>
+          <div class="module"><div class="emoji">👁️</div><div class="meta"><b>Dichoptic concepts</b><small>Separate visual channels · calibration required</small></div><span class="pill">Planned</span></div>
+        </div>
+      </div>
+      <div class="card span-6">
+        <h2>Recent activity</h2><table class="history"><thead><tr><th>Activity</th><th>Duration</th><th>Date</th></tr></thead><tbody id="historyRows"><tr><td colspan="3" class="muted">No sessions recorded yet.</td></tr></tbody></table>
+      </div>
+    </div>
+  </section>
+
+  <section id="exercises" class="page hidden">
+    <div class="grid">
+      <div class="card span-12"><h2>Exercise library</h2><p class="muted">These are interaction prototypes, not prescribed therapy. A clinician must select and configure any real intervention.</p></div>
+      <div class="card span-6"><div class="module"><div class="emoji">〰️</div><div class="meta"><b>Smooth pursuit demo</b><small>Follow a moving target with your eyes while keeping your head still, if instructed.</small></div></div><button class="primary" onclick="openSession('pursuit')">Open demo</button></div>
+      <div class="card span-6"><div class="module"><div class="emoji">🎯</div><div class="meta"><b>Saccadic localization demo</b><small>Shift gaze between briefly displayed targets.</small></div></div><button class="primary" onclick="openSession('saccade')">Open demo</button></div>
+      <div class="card span-6"><div class="module"><div class="emoji">🔴</div><div class="meta"><b>Dichoptic display preview</b><small>Visual channel preview only; requires suitable filters and calibration.</small></div></div><button class="outline" onclick="openSession('dichoptic')">Preview</button></div>
+      <div class="card span-6"><div class="module"><div class="emoji">🧵</div><div class="meta"><b>Brock string learning card</b><small>Educational explanation; no substitute for in-person instruction.</small></div></div><button class="outline" onclick="showBrock()">Read guide</button></div>
+    </div>
+  </section>
+
+  <section id="session" class="page hidden">
+    <div class="card">
+      <div class="eyebrow">Interactive demonstration</div><h2 id="sessionTitle">Smooth pursuit target</h2><p class="muted" id="sessionDescription">Follow the target with your eyes. Keep your head still if comfortable.</p>
+      <div class="stage" id="stage"><div class="target" id="target"></div><div class="fix"></div><div id="stageLabel" style="position:absolute;bottom:15px;color:#c8d4eb;font-size:12px">Demo only · Not calibrated for visual angle</div></div>
+      <div class="controls"><button class="primary" id="startBtn" onclick="startExercise()">Start</button><button class="outline" onclick="stopExercise()">Stop</button><span class="muted" id="timer">00:00</span><span class="pill" id="sessionStatus">Ready</span></div>
+      <div class="notice">This prototype does not measure fixation, vergence, suppression, acuity, or treatment response. Do not use it as a prescribed clinical protocol.</div>
+    </div>
+  </section>
+
+  <section id="clinician" class="page hidden">
+    <div class="grid">
+      <div class="card span-8"><h2>Clinician workspace</h2><p class="muted">Prototype controls for planning and reviewing supervised activities.</p>
+        <div class="field"><label>Demo patient label (avoid identifiable data)</label><input id="patientLabel" value="Demo patient"></div>
+        <div class="field"><label>Clinical notes</label><input id="clinicalNotes" placeholder="e.g. baseline assessment completed offline"></div>
+        <div class="field"><label>Assigned activity</label><select id="assigned"><option>Smooth pursuit demonstration</option><option>Saccadic localization demonstration</option><option>Dichoptic display preview</option><option>Educational Brock string guide</option></select></div>
+        <button class="teal" onclick="savePlan()">Save local demo plan</button><span id="planSaved" class="muted"></span>
+      </div>
+      <div class="card span-4"><h2>Clinical safeguards</h2><ul class="muted"><li>Diagnosis and baseline assessment are performed separately.</li><li>Set goals and stop criteria before any intervention.</li><li>Use calibrated stimulus size, distance, luminance and timing.</li><li>Monitor symptoms and objective outcomes.</li><li>Do not infer improvement from game scores.</li></ul></div>
+      <div class="card span-12"><h2>Evidence & governance backlog</h2><p class="muted">Before clinical deployment: protocol-specific evidence review, stimulus calibration validation, usability testing, privacy/security review, adverse-event workflow, and prospective outcome evaluation.</p></div>
+    </div>
+  </section>
+</main>
+</div>
+<script>
+let currentPage='overview', timerInterval=null, startedAt=null, elapsed=0, activeType='pursuit', targetInterval=null, sessions=JSON.parse(localStorage.getItem('nv_sessions')||'[]');
+const titles={overview:['Welcome to NeuroVision','A clinician-guided workspace for structured visual activities.'],exercises:['Exercise library','Explore interactive demonstrations and educational modules.'],session:['Training room','A simple demonstration space for supervised activities.'],clinician:['Clinician view','Configure a demo plan and review safety checkpoints.']};
+function page(name){document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));document.getElementById(name).classList.remove('hidden');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===name));currentPage=name;document.getElementById('pageTitle').textContent=titles[name][0];document.getElementById('pageSub').textContent=titles[name][1];if(name==='overview')renderHistory()}
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>page(b.dataset.page)));
+function openSession(type){activeType=type;page('session');const t=document.getElementById('target');t.style.display=type==='dichoptic'?'none':'block';document.getElementById('sessionTitle').textContent=type==='pursuit'?'Smooth pursuit target':type==='saccade'?'Saccadic localization demo':'Dichoptic display preview';document.getElementById('sessionDescription').textContent=type==='pursuit'?'Follow the moving target with your eyes; keep your head still if comfortable.':type==='saccade'?'Look toward the target when it appears. This is a simple reaction demonstration.':'This preview does not separate images to each eye. A true dichoptic setup needs calibrated per-eye delivery.';document.getElementById('stageLabel').textContent=type==='dichoptic'?'Display preview only · no per-eye separation':'Demo only · not calibrated for visual angle';stopExercise();if(type==='dichoptic'){document.getElementById('stage').style.background='linear-gradient(90deg,#f44 0 50%,#2dd 50%)';}else{document.getElementById('stage').style.background='#101b33';}}
+function startExercise(){stopExercise();elapsed=0;startedAt=Date.now();document.getElementById('sessionStatus').textContent='Running';document.getElementById('startBtn').textContent='Restart';timerInterval=setInterval(()=>{elapsed=Math.floor((Date.now()-startedAt)/1000);document.getElementById('timer').textContent=fmt(elapsed)},250);const t=document.getElementById('target');if(activeType==='pursuit'){let x=50,dir=1;t.style.left=x+'%';targetInterval=setInterval(()=>{x+=dir*1.1;if(x>88||x<12)dir*=-1;t.style.left=x+'%'},35)}else if(activeType==='saccade'){targetInterval=setInterval(()=>{t.style.left=(15+Math.random()*70)+'%';t.style.top=(18+Math.random()*64)+'%'},850)}}
+function stopExercise(){if(timerInterval)clearInterval(timerInterval);if(targetInterval)clearInterval(targetInterval);timerInterval=null;targetInterval=null;document.getElementById('sessionStatus').textContent='Stopped';document.getElementById('startBtn').textContent='Start';if(startedAt&&elapsed>0){sessions.unshift({type:activeType,duration:elapsed,date:new Date().toLocaleDateString()});localStorage.setItem('nv_sessions',JSON.stringify(sessions.slice(0,30)));startedAt=null;renderHistory();}}
+function fmt(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+function renderHistory(){const rows=document.getElementById('historyRows');rows.innerHTML=sessions.length?sessions.slice(0,6).map(s=>`<tr><td>${s.type}</td><td>${Math.ceil(s.duration/60)} min</td><td>${s.date}</td></tr>`).join(''):'<tr><td colspan="3" class="muted">No sessions recorded yet.</td></tr>';document.getElementById('sessionsCount').textContent=sessions.length;document.getElementById('minutesCount').textContent=Math.round(sessions.reduce((a,s)=>a+s.duration,0)/60);document.getElementById('weekProgress').style.width=Math.min(100,sessions.length*12)+'%'}
+function savePlan(){localStorage.setItem('nv_plan',JSON.stringify({patient:document.getElementById('patientLabel').value,notes:document.getElementById('clinicalNotes').value,assigned:document.getElementById('assigned').value}));document.getElementById('planSaved').textContent=' Saved on this device.'}
+function showBrock(){alert('Brock string is a clinician-taught vergence and fixation activity. This app does not prescribe it. A clinician should demonstrate the setup, select targets and distance, define the response to observe, and decide whether it is appropriate for the patient.')}
+renderHistory();
+</script>
+</body></html>
